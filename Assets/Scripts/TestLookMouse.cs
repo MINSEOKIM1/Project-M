@@ -47,7 +47,7 @@ public class TestLookMouse : MonoBehaviour
         
         if (hitData)
         {
-            GameObject targeted = hitData.rigidbody.gameObject;
+            GameObject targeted = hitData.collider.gameObject;
             
             switch (targeted.layer)
             {
@@ -56,7 +56,7 @@ public class TestLookMouse : MonoBehaviour
                     break;
 
                 case 8:
-                    // TODO: Implement some logic to call enemy's death method
+                    targeted.GetComponent<EnemyBehaviour>().Death();
                     break;
 
                 default:
@@ -64,11 +64,11 @@ public class TestLookMouse : MonoBehaviour
             }
         }
     }
-    
+
     // Update is called once per frame
     void Update()
     {
-        if (shootTime > 0) shootTime -= Time.deltaTime;
+
         target = transform.position;
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         angle = Mathf.Atan2(mouse.y - target.y, mouse.x - target.x) * Mathf.Rad2Deg;
