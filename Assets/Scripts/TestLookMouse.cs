@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Weapon
 {
@@ -11,9 +13,12 @@ public class TestLookMouse : MonoBehaviour
 {
     [SerializeField] private GameObject _gunLine;
 
+    private UIManager UIManager = TestGameManager.Instance.UIManager;
+
     private RaycastHit2D hitData;
     private Vector2 mouse, target;
     private float angle;
+    private bool isReloading = false;
 
     public GameObject _enemyPrefab;
 
@@ -21,9 +26,19 @@ public class TestLookMouse : MonoBehaviour
 
     public float shootTime = 0f;
     public float shootDelay = 0.2f;
-    
+
+    public int handGunMaxBullets = 15;
+    public int machinGunMaxBullets = 40;
+    public int shotGunMaxBullets = 7;
+
+    public int curBullets = 0;
+
+    public Text weaponInfoText;
+
     private void Shoot()
     {
+        curBullets--;
+        
         hitData = Physics2D.Raycast(target, (mouse - target).normalized, Mathf.Infinity, (1 << 8) + (1 << 7) + (1 << 6));
         Debug.DrawRay(target, 100f * (mouse - target), Color.red, 0.1f);
 
@@ -62,21 +77,60 @@ public class TestLookMouse : MonoBehaviour
         switch (weaponNum)
         {
             case Weapon.handgun:
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (curBullets > handGunMaxBullets) curBullets = handGunMaxBullets;
+                weaponInfoText.text = "Handgun - " + curBullets + "/" + handGunMaxBullets;
+                if (Input.GetKeyDown(KeyCode.Mouse0) && curBullets > 0)
                 {
                     Shoot();
                 }
+
+                if (!isReloading && Input.GetKeyDown(KeyCode.Q))
+                {
+                    weaponNum = Weapon.machinegun;
+                }
+
                 break;
             case Weapon.machinegun:
-                if (Input.GetKey(KeyCode.Mouse0) && shootTime <= 0)
+                if (curBullets > machinGunMaxBullets) curBullets = machinGunMaxBullets;
+                weaponInfoText.text = "Machinegun - " + curBullets + "/" + machinGunMaxBullets;
+                if (Input.GetKey(KeyCode.Mouse0) && shootTime <= 0 && curBullets > 0)
                 {
                     shootTime = shootDelay;
                     Shoot();
                 }
+                if (!isReloading && Input.GetKeyDown(KeyCode.Q))
+                {
+                    weaponNum = Weapon.handgun;
+                }
+
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading)
+        {
+            StartCoroutine("Reload");
+        }
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(2f);
+        switch (weaponNum)
+        {
+            case Weapon.handgun:
+                curBullets = handGunMaxBullets;
+                break;
+            case Weapon.machinegun:
+                curBullets = machinGunMaxBullets;
+                break;
+            default:
+                break;
+        }
+
+        isReloading = false;
     }
 }
