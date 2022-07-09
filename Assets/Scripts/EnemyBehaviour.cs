@@ -36,10 +36,8 @@ class EnemyBehaviour : MonoBehaviour
                     enraged = true;
                     StartCoroutine("EnemyGun");
                     break;
-
                 case 10:
                     break;
-
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -63,7 +61,6 @@ class EnemyBehaviour : MonoBehaviour
         gun = GetComponent<EnemyGunBehaviour>();
         movementController = GetComponent<EnemyMovement>();
     }
-
 
     private void Update()
     {
