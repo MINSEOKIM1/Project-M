@@ -68,7 +68,7 @@ public class TestLookMouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        shootTime -= Time.deltaTime;
         target = transform.position;
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         angle = Mathf.Atan2(mouse.y - target.y, mouse.x - target.x) * Mathf.Rad2Deg;

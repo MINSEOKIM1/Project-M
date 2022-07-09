@@ -24,8 +24,9 @@ class EnemyBehaviour : MonoBehaviour
 
     private void DetectPlayer()
     {
-        hitData = Physics2D.Raycast(transform.position + 0.3f * Vector3.up, new Vector2(movementController.direction, 0f), detectRange, (1 << 9) + (1 << 10));
-
+        hitData = Physics2D.Raycast(transform.position + 0.2f * Vector3.up, new Vector2(movementController.direction*10, 0f), detectRange, (1 << 9) + (1 << 10));
+        Debug.DrawRay(transform.position + 0.2f * Vector3.up, new Vector2(movementController.direction*10, 0f), Color.red, 0.1f);
+        
         if (hitData)
         {
             GameObject targeted = hitData.collider.gameObject;
