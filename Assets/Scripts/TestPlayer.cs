@@ -91,8 +91,6 @@ public class TestPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.tag + "/" + collision.contacts[0].normal.y);
-        
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Box")
         {
             
@@ -127,7 +125,8 @@ public class TestPlayer : MonoBehaviour
                 {
                     isClimbing = true;
                     Debug.Log("WALL IN!");
-                    climbingDirection = (int) collision.contacts[0].normal.x;
+                    climbingDirection = (int) Mathf.Round(collision.contacts[0].normal.x);
+                    Debug.Log("Direction : " + climbingDirection);
                 }
             }
         }

@@ -14,7 +14,7 @@ public class CameraMoving : MonoBehaviour
     
     public float lerpSpeed;
     public float deflerpSpeed;
-    public float yoffset = 2f;
+    public float offsetDist = 2f;
 
     private bool isMoving = false;
     public void SetTarget(Vector3 target, int num)
@@ -52,8 +52,7 @@ public class CameraMoving : MonoBehaviour
 
         if (!isMoving)
         {
-            var targetPos = playerTransform.position + offset;
-            Debug.Log("offset X : " + offset.x + " offset Y : " + offset.y);
+            var targetPos = playerTransform.position + offset * offsetDist;
             targetPos = new Vector3(
                 Mathf.Clamp(targetPos.x, _cameraLocataionDatas.xMin[mapNum], _cameraLocataionDatas.xMax[mapNum]),
                 Mathf.Clamp(targetPos.y, _cameraLocataionDatas.yMin[mapNum], _cameraLocataionDatas.yMax[mapNum]),

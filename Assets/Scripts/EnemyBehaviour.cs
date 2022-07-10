@@ -18,8 +18,8 @@ class EnemyBehaviour : MonoBehaviour
     {
         hp -= damage;
         Debug.Log("REMAIN HP : " + hp + "\n DAMAGE : " + damage);
+        if (!enraged) StartCoroutine("EnemyGun");
         enraged = true;
-        StartCoroutine("EnemyGun");
     }
 
     public void Unrage()
@@ -42,8 +42,8 @@ class EnemyBehaviour : MonoBehaviour
                 case 6:
                     break;
                 case 9:
+                    if (!enraged) StartCoroutine("EnemyGun");
                     enraged = true;
-                    StartCoroutine("EnemyGun");
                     break;
                 case 10:
                     break;
@@ -60,7 +60,7 @@ class EnemyBehaviour : MonoBehaviour
         while (true)
         {
             gun.Fire();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
