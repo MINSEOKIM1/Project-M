@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TestPlayer : MonoBehaviour
 {
@@ -16,8 +18,18 @@ public class TestPlayer : MonoBehaviour
     public float xMaxSpd = 5f;
     public float jumpPower = 10f;
 
+    public float maxHp = 100f;
+    public float hp = 100f;
+
+    public Slider hpBar;
+
     private int climbingDirection = -1;
 
+    public void Damage(float damage)
+    {
+        hp -= damage;
+    }
+    
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -26,6 +38,8 @@ public class TestPlayer : MonoBehaviour
     
     void FixedUpdate()
     {
+        if (hp < 0) SceneManager.LoadScene(0);
+        hpBar.value = (hp / maxHp);
         if (Input.GetAxisRaw("Horizontal") != 0)
         {
             xSpeed += xAcc * Input.GetAxisRaw("Horizontal");

@@ -21,6 +21,8 @@ public class BossBehaviour : MonoBehaviour
     private BossState state;
     private BossPattern pattern;
 
+    public int boxNum = 0;
+
     public void BossAction()
     {
         switch (state)
@@ -32,7 +34,9 @@ public class BossBehaviour : MonoBehaviour
                 StartCoroutine(pattern.WanderPattern());
                 break;
             case BossState.BoxThrow:
+                if (boxNum < 6)
                 StartCoroutine(pattern.ThrowPattern());
+                else StartCoroutine(pattern.ShootPattern());
                 break;
             case BossState.GunShoot:
                 StartCoroutine(pattern.ShootPattern());

@@ -11,9 +11,15 @@ class EnemyBehaviour : MonoBehaviour
     private EnemyGunBehaviour gun;
     private EnemyMovement movementController;
 
-    public void Death()
+    public float maxHp = 100;
+    public float hp = 100;
+
+    public void Damage(float damage)
     {
-        Destroy(gameObject);
+        hp -= damage;
+        Debug.Log("REMAIN HP : " + hp + "\n DAMAGE : " + damage);
+        enraged = true;
+        StartCoroutine("EnemyGun");
     }
 
     public void Unrage()
@@ -24,14 +30,17 @@ class EnemyBehaviour : MonoBehaviour
 
     private void DetectPlayer()
     {
-        hitData = Physics2D.Raycast(transform.position + 0.3f * Vector3.up, new Vector2(movementController.direction, 0f), detectRange, (1 << 9) + (1 << 10));
-
+        hitData = Physics2D.Raycast(transform.position + 0.2f * Vector3.up, new Vector2(movementController.direction*10, 0f), detectRange, (1 << 6) + (1 << 9) + (1 << 10));
+        Debug.DrawRay(transform.position + 0.2f * Vector3.up, new Vector2(movementController.direction*10, 0f), Color.red, 0.1f);
+        
         if (hitData)
         {
             GameObject targeted = hitData.collider.gameObject;
 
             switch (targeted.layer)
             {
+                case 6:
+                    break;
                 case 9:
                     enraged = true;
                     StartCoroutine("EnemyGun");
@@ -51,7 +60,7 @@ class EnemyBehaviour : MonoBehaviour
         while (true)
         {
             gun.Fire();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -64,6 +73,10 @@ class EnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+        }
         if (enraged)
         {
             movementController.MovementOnEnraged();

@@ -8,16 +8,17 @@ public class MapManager : MonoBehaviour
     [SerializeField] private PlayerLocationDatas _playerLocationDatas;
     [SerializeField] private Camera _camera;
 
-    private GameObject player;
+    [SerializeField] private GameObject player;
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        MoveMap(0);
         MoveMap(0);
     }
     public void MoveMap(int n) // to map[n] (n = 0, 1, 2, ...)
     {
         CameraMoving script = _camera.GetComponent<CameraMoving>();
-        script.SetTarget(_cameraLocataionDatas.maps[n]);
+        script.SetTarget(_cameraLocataionDatas.maps[n], n);
+        Debug.Log(player.transform.position.x);
         player.transform.position = _playerLocationDatas.locations[n];
     }
 

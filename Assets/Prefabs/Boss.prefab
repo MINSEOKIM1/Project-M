@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77740414590aaf4095ba86951179c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boxPrefab: {fileID: 0}
+  _boxPrefab: {fileID: 7517067588360521567, guid: 6e9f32988b973fb49bd6536a2e481a4d, type: 3}
   _bulletPrefab: {fileID: 9061598595504973345, guid: 4b1a96a7e90a34d3c8523a4a46c9e316, type: 3}
   boxSpeed: 7
   bulletSpeed: 15
