@@ -13,7 +13,7 @@ public class TestLookMouse : MonoBehaviour
 {
     [SerializeField] private GameObject _gunLine;
 
-    private UIManager UIManager = TestGameManager.Instance.UIManager;
+    private UIManager UIManager;
 
     private RaycastHit2D hitData;
     private Vector2 mouse, target;
@@ -33,13 +33,17 @@ public class TestLookMouse : MonoBehaviour
 
     public int curBullets = 0;
 
+    public Vector3 PlayerTomouseVector3;
+
+    public float atk = 10f;
+
     public Text weaponInfoText;
 
     private void Shoot()
     {
         curBullets--;
         
-        hitData = Physics2D.Raycast(target, (mouse - target).normalized, Mathf.Infinity, (1 << 8) + (1 << 7) + (1 << 6));
+        hitData = Physics2D.Raycast(target, (mouse - target).normalized, Mathf.Infinity, (1 << 10) + (1 << 8) + (1 << 7) + (1 << 6));
         Debug.DrawRay(target, 100f * (mouse - target), Color.red, 0.1f);
 
         var lineR = Instantiate(_gunLine, transform.position, Quaternion.identity);
@@ -56,13 +60,22 @@ public class TestLookMouse : MonoBehaviour
                     break;
 
                 case 8:
-                    targeted.GetComponent<EnemyBehaviour>().Death();
+                    targeted.GetComponent<EnemyBehaviour>().Damage((float)atk);
                     break;
-
+                
+                case 10:
+                    targeted.GetComponent<BoxBehaviour>().Damage((float)atk*2);
+                    break;
+                
                 default:
                     throw new ArgumentOutOfRangeException("Unhandled Layer Mask Called.");
             }
         }
+    }
+
+    private void Start()
+    {
+        UIManager = TestGameManager.Instance.UIManager;
     }
 
     // Update is called once per frame
@@ -73,7 +86,9 @@ public class TestLookMouse : MonoBehaviour
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         angle = Mathf.Atan2(mouse.y - target.y, mouse.x - target.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-
+        
+        PlayerTomouseVector3 = (mouse - target).normalized;
+        
         switch (weaponNum)
         {
             case Weapon.handgun:
@@ -87,6 +102,7 @@ public class TestLookMouse : MonoBehaviour
                 if (!isReloading && Input.GetKeyDown(KeyCode.Q))
                 {
                     weaponNum = Weapon.machinegun;
+                    atk = 10f;
                 }
 
                 break;
@@ -101,6 +117,7 @@ public class TestLookMouse : MonoBehaviour
                 if (!isReloading && Input.GetKeyDown(KeyCode.Q))
                 {
                     weaponNum = Weapon.handgun;
+                    atk = 25f;
                 }
 
 

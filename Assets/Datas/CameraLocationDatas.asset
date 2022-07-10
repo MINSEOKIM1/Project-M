@@ -13,7 +13,27 @@ MonoBehaviour:
   m_Name: CameraLocationDatas
   m_EditorClassIdentifier: 
   maps:
-  - {x: 0, y: 0, z: -10}
-  - {x: 19, y: 0, z: -10}
-  - {x: 0, y: 10.6, z: -10}
-  - {x: 19, y: 10.6, z: -10}
+  - {x: -11, y: -5, z: -10}
+  - {x: 26.5, y: -5, z: -10}
+  - {x: 9, y: 14, z: -10}
+  - {x: 26.5, y: 22.5, z: -10}
+  xMax:
+  - 9
+  - 46
+  - 9
+  - 46
+  xMin:
+  - -11
+  - 26.5
+  - -11
+  - 26.5
+  yMax:
+  - 4
+  - 4
+  - 22.5
+  - 22.5
+  yMin:
+  - -5
+  - -5
+  - 14
+  - 14

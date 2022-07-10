@@ -6,4 +6,5 @@ using UnityEngine;
 public class CameraLocataionDatas : ScriptableObject
 {
     public Vector3[] maps;
+    public float[] xMax, xMin, yMax, yMin;
 }
